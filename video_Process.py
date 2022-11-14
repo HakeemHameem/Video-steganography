@@ -5,9 +5,27 @@ import os
 from subprocess import call, STDOUT
 import shlex
 from PIL import Image
+import math
 
 temp_folder = "frame_folder"
 frame_count = [1]
+
+
+def split_string(s_str, count=10):
+    per_c = math.ceil(len(s_str) / count)
+    c_cout = 1
+    out_str = ""
+    split_list = []
+    for s in s_str:
+        out_str += s
+        c_cout += 1
+        if c_cout == per_c:
+            split_list.append(out_str)
+            out_str = ""
+            c_cout = 0
+    if c_cout != 0:
+        split_list.append(out_str)
+    return split_list
 
 
 def createTmp():
@@ -30,27 +48,38 @@ def FrameCapture(path, op, password, message=""):
     # Used as counter variable
     count = 0
     total_frame = countFrames(path)
+    split_string_list = split_string(message)
+    position = 0
+    outputMessage = ""
     while count < total_frame:
         success, image = vidObj.read()
         if op == 1:
             cv2.imwrite(temp_folder + "\\" + "frame%d.png" % count, image)
 
         if op == 1:
-            if count in frame_count:
+            if position < len(split_string_list):
+                print(
+                    "Input in image working :- ",
+                    split_string_list[position],
+                )
                 Stegno_image.main(
                     op,
                     password=password,
-                    message=message,
+                    message=split_string_list[position],
                     img_path=temp_folder + "\\" + "frame%d.png" % count,
                 )
+                position += 1
                 os.remove(temp_folder + "\\" + "frame%d.png" % count)
 
-        if op == 2 and count in frame_count:
-            Stegno_image.main(
+        if op == 2:
+            str = Stegno_image.main(
                 op,
                 password=password,
                 img_path=temp_folder + "\\" + "frame%d.png" % count,
             )
+            if str == "Invalid data!":
+                break
+            outputMessage = outputMessage + str
 
         count += 1
 
@@ -61,6 +90,9 @@ def FrameCapture(path, op, password, message=""):
         # images = [img for img in os.listdir("frame_folder") if img.endswith(".png")]
         # for img in images:
         #     os.remove(os.path.join("frame_folder", img))
+
+    if op == 2:
+        print("Message is :- ", outputMessage)
 
 
 def makeVideoFromFrame():

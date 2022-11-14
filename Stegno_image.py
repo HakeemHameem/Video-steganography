@@ -1,7 +1,6 @@
 from PIL import Image
 import os.path
 from os import path
-import math
 import base64
 from colorama import init
 import os
@@ -185,7 +184,6 @@ def decodeImage(image):
 
 def main(op, password, img_path, message=""):
     # insertHeaders(img)
-
     if op == 1:
         img = img_path
         message = headerText + message
@@ -203,7 +201,7 @@ def main(op, password, img_path, message=""):
             cipher = headerText + message
 
         image = Image.open(img)
-        print("Image Mode: %s" % image.mode)
+        # print("Image Mode: %s" % image.mode)
         if image.mode != "RGB":
             image = convertToRGB(image)
         newimg = image.copy()
@@ -223,10 +221,8 @@ def main(op, password, img_path, message=""):
         cipher = decodeImage(image)
         header = cipher[: len(headerText)]
         if header.strip() != headerText:
-            print("Invalid data!")
-            sys.exit(0)
+            return "Invalid data!"
 
-        print()
         decrypted = ""
         cipher = cipher[len(headerText) :]
 
@@ -241,15 +237,13 @@ def main(op, password, img_path, message=""):
                     sys.exit(0)
 
                 decrypted = decrypted[len(headerText) :]
-                print(
-                    "With Password Decoded Text:- ",
-                    decrypted.decode("utf-8"),
-                )
+                return decrypted.decode("utf-8")
             except Exception as e:
                 print("Wrong password!")
                 sys.exit(0)
         else:
-            print("Simple Decoded Text: - ", cipher[len(headerText) :])
+            # print("Simple Decoded Text: - ", cipher[len(headerText) :])
+            return cipher[len(headerText) :]
 
 
 if __name__ == "__main__":
