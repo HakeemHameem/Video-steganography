@@ -1,0 +1,8 @@
+*.png
+*.mp4
+*.mp3
+*.mov
+__pycache__
+frame_folder
+onlinie_code.py
+pixel_diff.py
