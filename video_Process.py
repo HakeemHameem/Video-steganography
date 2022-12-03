@@ -8,7 +8,6 @@ from PIL import Image
 import math
 
 temp_folder = "frame_folder"
-frame_count = [1]
 
 
 def split_string(s_str, count=10):
@@ -112,28 +111,22 @@ def makeVideoFromFrame():
         shell=True,
     )
 
-    # image_folder = temp_folder
-    # video_name = "video.avi"
-
-    # images = [img for img in os.listdir(image_folder) if img.endswith(".png")]
-    # frame = cv2.imread(os.path.join(image_folder, images[0]))
-    # height, width, layers = frame.shape
-
-    # video = cv2.VideoWriter(video_name, 0, 1, (width, height))
-    # video.set(cv2.CAP_PROP_FPS, 30)
-    # for image in images:
-    #     video.write(cv2.imread(os.path.join(image_folder, image)))
-
-    # cv2.destroyAllWindows()
-    # video.release()
-
 
 def main():
+    print("In what you want to hide the data 1 for image and 2 for video Using e-LSB\n")
+    print(">>")
+    choice = int(input())
+
+    if choice == 1:
+        text = "Image"
+    else:
+        text = "Video"
+
     print("Choose one: ")
     op = int(input("1. Encode\n2. Decode\n>>"))
 
     if op == 1:
-        print("Video path (with extension): ")
+        print(f"{text} path (with extension): ")
         img = input(">>")
 
         print("Message to be hidden: ")
@@ -181,7 +174,7 @@ def main():
         os.remove("sample.mp3")
 
     elif op == 2:
-        print("Image path (with extension): ")
+        print(f"{text} path (with extension): ")
         img = input(">>")
 
         print("Enter password (leave empty if no password): ")
@@ -192,7 +185,7 @@ def main():
 if __name__ == "__main__":
 
     print(
-        "IMGHIDE allows you to hide texts inside an image. You can also protect these texts with a password using AES-256."
+        "VIDEOHIDE allows you to hide texts inside an video. You can also protect these texts with a password using AES-256."
     )
     print()
     main()
