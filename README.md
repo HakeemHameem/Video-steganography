@@ -14,3 +14,9 @@ Example of my project :-
 
 
 ![decode](https://user-images.githubusercontent.com/67770218/205626145-e1fd6b48-cb4a-4725-959f-9fee545bedc3.png)
+
+If there is some error like :- "The system cannot not find the file specified output.mov".
+Then make sure first to install all library which are required by program (specially this error raised when you didn't install ffmepg).
+And If you are sure all libraries are install but still error is coming then, add path of ffmepg to environment variable.
+
+How to add path to enviroment variable of ffmepg : - https://www.wikihow.com/Install-FFmpeg-on-Windows
